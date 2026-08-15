@@ -14,16 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      applications: {
+        Row: {
+          candidate_id: string
+          cover_note: string | null
+          created_at: string
+          id: string
+          job_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          candidate_id: string
+          cover_note?: string | null
+          created_at?: string
+          id?: string
+          job_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          candidate_id?: string
+          cover_note?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      jobs: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          description: string
+          id: string
+          location: string | null
+          posted_by: string
+          requirements: string[] | null
+          responsibilities: string[] | null
+          salary_range: string | null
+          status: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          location?: string | null
+          posted_by: string
+          requirements?: string[] | null
+          responsibilities?: string[] | null
+          salary_range?: string | null
+          status?: string
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string | null
+          posted_by?: string
+          requirements?: string[] | null
+          responsibilities?: string[] | null
+          salary_range?: string | null
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          expected_salary: string | null
+          experience_years: number | null
+          full_name: string | null
+          headline: string | null
+          id: string
+          is_public: boolean | null
+          location: string | null
+          resume_url: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          skills: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          expected_salary?: string | null
+          experience_years?: number | null
+          full_name?: string | null
+          headline?: string | null
+          id?: string
+          is_public?: boolean | null
+          location?: string | null
+          resume_url?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          skills?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          expected_salary?: string | null
+          experience_years?: number | null
+          full_name?: string | null
+          headline?: string | null
+          id?: string
+          is_public?: boolean | null
+          location?: string | null
+          resume_url?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          skills?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "employer" | "candidate"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +316,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "employer", "candidate"],
+    },
   },
 } as const
